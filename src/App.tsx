@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import StoryCard from './components/StoryCard'
 import StoryViewer from './components/StoryViewer'
 import AnimatedBackground from './components/AnimatedBackground'
+import BackgroundMusic from './components/BackgroundMusic'
 import './App.css'
 
 export interface MediaItem {
@@ -190,6 +191,7 @@ function App() {
   return (
     <div className="app">
       <AnimatedBackground />
+      <BackgroundMusic src="/One_Direction_-_story_my_life_(mp3.pm).mp3" />
       <motion.header
         className="header"
         initial={{ opacity: 0, y: -50 }}
