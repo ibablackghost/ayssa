@@ -1,0 +1,125 @@
+.story-card {
+  position: relative;
+  aspect-ratio: 9/16;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--bg-card);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.story-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+  transform: translateY(-4px);
+  border-color: var(--text-secondary);
+}
+
+.story-card-media {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-card-image,
+.story-card-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-card-video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.story-card-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.story-card:hover .story-card-play-icon {
+  opacity: 1;
+}
+
+.story-card-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    transparent 100%
+  );
+}
+
+.story-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.story-card-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.8);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.story-card-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .story-card {
+    border-radius: 15px;
+  }
+
+  .story-card-number {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .story-card-icon {
+    font-size: 1.3rem;
+  }
+}
+
