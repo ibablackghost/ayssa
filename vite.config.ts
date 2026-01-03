@@ -7,8 +7,8 @@ export default defineConfig({
     include: ['framer-motion'],
   },
   server: {
-    host: true, // Permet l'accès depuis le réseau local
-    port: 5173, // Port par défaut
+    host: '0.0.0.0', // Permet l'accès depuis le réseau local
+    port: 4205, // Port personnalisé
     hmr: true,
   },
 })

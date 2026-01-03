@@ -28,21 +28,27 @@ const StoryCard = ({ media, index, onClick }: StoryCardProps) => {
           />
         ) : (
           <div className="story-card-video-wrapper">
-            <video
-              src={media.src}
-              muted
-              playsInline
-              className="story-card-video"
-              onMouseEnter={(e) => {
-                const video = e.currentTarget
-                video.play().catch(() => {})
-              }}
-              onMouseLeave={(e) => {
-                const video = e.currentTarget
-                video.pause()
-                video.currentTime = 0
-              }}
-            />
+            {media.thumbnail ? (
+              <img
+                src={media.thumbnail}
+                alt={`Video thumbnail ${index + 1}`}
+                className="story-card-video-thumbnail"
+                loading="lazy"
+                onError={(e) => {
+                  // Si l'image n'existe pas, utiliser une couleur de fond
+                  const target = e.currentTarget as HTMLImageElement
+                  target.style.display = 'none'
+                  const wrapper = target.parentElement as HTMLElement
+                  if (wrapper) {
+                    wrapper.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)'
+                  }
+                }}
+              />
+            ) : (
+              <div className="story-card-video-placeholder">
+                <div className="story-card-play-icon-large">▶</div>
+              </div>
+            )}
             <div className="story-card-play-icon">▶</div>
           </div>
         )}

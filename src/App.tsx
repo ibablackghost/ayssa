@@ -107,17 +107,61 @@ function App() {
           'WhatsApp Video 2026-01-03 at 15.51.28.mp4',
         ]
 
+        // Créer un mapping pour trouver les thumbnails des vidéos (sans réutiliser les images)
+        const usedThumbnails = new Set<string>()
+        
+        const findThumbnailForVideo = (videoName: string, videoIndex: number): string | null => {
+          // Extraire le timestamp de la vidéo
+          const videoTime = videoName.match(/at (\d{2}\.\d{2}\.\d{2})/)?.[1]
+          
+          // Chercher une image avec un timestamp proche qui n'a pas encore été utilisée
+          let matchingImage = images.find(img => {
+            if (usedThumbnails.has(img)) return false
+            const imgTime = img.match(/at (\d{2}\.\d{2}\.\d{2})/)?.[1]
+            if (!imgTime || !videoTime) return false
+            // Correspondance exacte ou très proche (même minute)
+            return imgTime === videoTime || imgTime.substring(0, 4) === videoTime.substring(0, 4)
+          })
+
+          // Si aucune correspondance proche, prendre une image non utilisée
+          if (!matchingImage) {
+            matchingImage = images.find(img => !usedThumbnails.has(img))
+          }
+
+          // Si toujours rien, utiliser une image différente pour chaque vidéo (rotation)
+          if (!matchingImage) {
+            const availableImages = images.filter(img => !usedThumbnails.has(img))
+            if (availableImages.length > 0) {
+              matchingImage = availableImages[videoIndex % availableImages.length]
+            } else {
+              // Toutes les images sont utilisées, réutiliser avec rotation
+              matchingImage = images[(videoIndex + images.length) % images.length]
+            }
+          }
+
+          if (matchingImage) {
+            usedThumbnails.add(matchingImage)
+            return matchingImage
+          }
+
+          return null
+        }
+
         const items: MediaItem[] = [
           ...images.map((img, idx) => ({
             id: `img-${idx}`,
             src: `/${img}`,
             type: 'image' as const,
           })),
-          ...videos.map((vid, idx) => ({
-            id: `vid-${idx}`,
-            src: `/${vid}`,
-            type: 'video' as const,
-          })),
+          ...videos.map((vid, idx) => {
+            const thumbnail = findThumbnailForVideo(vid, idx)
+            return {
+              id: `vid-${idx}`,
+              src: `/${vid}`,
+              type: 'video' as const,
+              thumbnail: thumbnail ? `/${thumbnail}` : undefined,
+            }
+          }),
         ]
 
         // Mélanger les médias
